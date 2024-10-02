@@ -4517,6 +4517,7 @@ name = "reth-exex-plugin"
 version = "0.0.0"
 dependencies = [
  "eyre",
+ "futures",
  "jsonrpsee",
  "libloading",
  "reth-exex",

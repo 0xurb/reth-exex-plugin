@@ -6,6 +6,9 @@ use eyre::Result;
 
 use reth_exex::ExExNotification;
 
+/// Required name of the plugin contrusctor function.
+pub const EXEX_MANAGER_CONSTRUCTOR_FN_NAME: &[u8] = b"__create_exex_plugin";
+
 /// ExEx plugin trait.
 /// # Example - Declare ExEx Plugin
 /// ```rust
