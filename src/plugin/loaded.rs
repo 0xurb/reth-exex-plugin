@@ -56,6 +56,7 @@ impl DerefMut for LoadedExExPlugin {
 
 impl LoadedExExPlugin {
     #[inline(always)]
+    #[allow(unused)]
     pub(crate) fn id(&self) -> &'static str {
         self.plugin.id()
     }

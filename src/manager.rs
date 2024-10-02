@@ -1,4 +1,6 @@
 //! [`ExExPlugin`] manager
+//!
+//! TODO - shared logger for plugins. Maybe around `RethTracer`
 
 use std::{collections::HashSet, path::Path, sync::Arc};
 
@@ -19,12 +21,11 @@ use crate::{
 };
 
 /// Reserved ID for ExEx plugins manager.
-const EXEX_MANAGER_ID: &str = "ExExManager";
+pub const EXEX_MANAGER_ID: &str = "ExExManager";
 
 /// The `ExEx` plugins manager.
 ///
 /// Dynamically loads and unloads ExEx [plugins](`super::ExExPlugin`).
-#[non_exhaustive]
 pub struct ExExPluginManager<Node: FullNodeComponents> {
     /// This `ExEx` context
     ctx: ExExContext<Node>,

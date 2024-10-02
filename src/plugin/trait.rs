@@ -27,10 +27,10 @@ pub const EXEX_MANAGER_CONSTRUCTOR_FN_NAME: &[u8] = b"__create_exex_plugin";
 ///         "MinimalExEx"
 ///     }
 ///
-///     fn handle_notification(
-///         &self,
-///         notification: &ExExNotification,
-///     ) -> Pin<Box<dyn Future<Output = Result<()>> + Send + '_>> {
+///     fn handle_notification<'a: 'b, 'b>(
+///         &'a self,
+///         notification: &'a ExExNotification,
+///     ) -> Pin<Box<dyn Future<Output = Result<()>> + Send + 'b>> {
 ///         Box::pin(async { Ok(()) })
 ///     }
 /// }
@@ -48,7 +48,7 @@ pub trait ExExPlugin: Debug + Send + Sync + 'static {
     /// A hook fired immediately after the plugin is loaded by the system.
     ///
     /// Used for any initialization logic.
-    fn on_load(&mut self) -> Pin<Box<dyn Future<Output = Result<()>> + Send + '_>> {
+    fn on_load<'a: 'b, 'b>(&'a mut self) -> Pin<Box<dyn Future<Output = Result<()>> + Send + 'b>> {
         Box::pin(async { Ok(()) })
     }
 
@@ -60,10 +60,10 @@ pub trait ExExPlugin: Debug + Send + Sync + 'static {
     }
 
     /// Method to handle received ExEx [notification](ExExNotification).
-    fn handle_notification(
-        &self,
-        notification: &ExExNotification,
-    ) -> Pin<Box<dyn Future<Output = Result<()>> + Send + '_>>;
+    fn handle_notification<'a: 'b, 'b>(
+        &'a self,
+        notification: &'a ExExNotification,
+    ) -> Pin<Box<dyn Future<Output = Result<()>> + Send + 'b>>;
 }
 
 impl Hash for dyn ExExPlugin + '_ {

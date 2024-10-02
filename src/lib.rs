@@ -2,14 +2,16 @@
 //!     which allows to build plugins by implementing [`ExExPlugin`] trait
 //!     on the dynamic libraries.
 
-#![cfg_attr(not(test), warn(unused_crate_dependencies))]
-#![allow(missing_docs)]
-
 mod plugin;
 pub use plugin::ExExPlugin;
 
 mod manager;
+pub use manager::{ExExPluginManager, EXEX_MANAGER_ID};
 
 mod rpc;
+pub use rpc::{ExExPluginRpc, ExExRpcPluginApiServer};
 
 mod sender;
+
+/// re-export for [`ExExNotification`] type
+pub use reth_exex::ExExNotification;
