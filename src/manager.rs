@@ -89,7 +89,7 @@ impl<Node: FullNodeComponents> ExExPluginManager<Node> {
             }
             RpcRequest::UnloadPlugin { id, tx } => {
                 let res = self
-                    .unload_plugin(id)
+                    .unload_plugin(&id)
                     .map_err(|err| format_rpc_err!("failed to unload exex plugin: {err:?}"));
                 tx.send(res).inspect_err(|err| error!("failed to send response: {err:?}"));
             }
@@ -97,11 +97,13 @@ impl<Node: FullNodeComponents> ExExPluginManager<Node> {
     }
 
     /// Returns a list of all plugin's ids.
-    pub fn plugins(&self) -> Vec<&'static str> {
-        self.plugins.iter().map(|plugin| plugin.id()).collect()
+    pub fn plugins(&self) -> Vec<String> {
+        self.plugins.iter().map(|plugin| plugin.id().to_owned()).collect()
     }
 
     /// Load the ExEx [plugin](`super::ExExPlugin`) from a given path.
+    ///
+    /// Returns: Loaded exex plugin's id.
     ///
     /// # Safety
     ///
@@ -109,7 +111,7 @@ impl<Node: FullNodeComponents> ExExPluginManager<Node> {
     /// name [`EXEX_MANAGER_CONSTRUCTOR_FN_NAME`]. Otherwise, behavior is undefined.
     /// See also [`libloading::Library::get`] for more information on what
     /// restrictions apply to [`EXEX_MANAGER_CONSTRUCTOR_FN_NAME`].
-    pub async unsafe fn load_plugin<P: AsRef<Path>>(&mut self, plugin_path: P) -> Result<()> {
+    pub async unsafe fn load_plugin<P: AsRef<Path>>(&mut self, plugin_path: P) -> Result<String> {
         type ExExPluginCreate = unsafe fn() -> *mut dyn ExExPlugin;
 
         let lib = Library::new(plugin_path.as_ref())
@@ -134,12 +136,12 @@ impl<Node: FullNodeComponents> ExExPluginManager<Node> {
 
         debug!(id=%id, action="load", "ExEx plugin was loaded succesfully");
 
-        Ok(())
+        Ok(id.to_owned())
     }
 
     /// Unload the ExEx [plugin](`super::ExExPlugin`) by the given plugin id, if one exists on
     /// manager.
-    pub fn unload_plugin(&mut self, id: &'static str) -> Result<()> {
+    pub fn unload_plugin(&mut self, id: &str) -> Result<()> {
         debug!(id=%id, action="ExExPluginManager::unload_plugin", "unloading an ExEx plugin");
 
         if let Some(mut plugin) = self.plugins.take(id) {
