@@ -8,9 +8,13 @@ rust-version = "1.81"
 [dependencies]
 # reth
 reth-exex = { git = "https://github.com/paradigmxyz/reth.git" }
+reth-node-api = { git = "https://github.com/paradigmxyz/reth.git" }
+reth-tracing = { git = "https://github.com/paradigmxyz/reth.git" }
 
 eyre = "0.6.12"
 libloading = "0.8.5"
+tokio = "1.40.0"
+jsonrpsee = "0.24.5"
 
 [[test]]
 name = "minimal"

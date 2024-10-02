@@ -4517,8 +4517,12 @@ name = "reth-exex-plugin"
 version = "0.0.0"
 dependencies = [
  "eyre",
+ "jsonrpsee",
  "libloading",
  "reth-exex",
+ "reth-node-api",
+ "reth-tracing",
+ "tokio",
 ]
 
 [[package]]
