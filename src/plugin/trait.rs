@@ -1,6 +1,6 @@
 //! ExEx plugin interface
 
-use std::{fmt::Debug, future::Future, pin::Pin};
+use std::{borrow::Borrow, fmt::Debug, future::Future, hash::Hash, pin::Pin};
 
 use eyre::Result;
 
@@ -61,13 +61,13 @@ pub trait ExExPlugin: Debug + Send + Sync + 'static {
     ) -> Pin<Box<dyn Future<Output = Result<()>> + Send + '_>>;
 }
 
-impl std::hash::Hash for dyn ExExPlugin + '_ {
+impl Hash for dyn ExExPlugin + '_ {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
         self.id().hash(state);
     }
 }
 
-impl std::borrow::Borrow<str> for Box<dyn ExExPlugin> {
+impl Borrow<str> for Box<dyn ExExPlugin> {
     fn borrow(&self) -> &str {
         self.id()
     }

@@ -10,6 +10,7 @@ rust-version = "1.81"
 reth-exex = { git = "https://github.com/paradigmxyz/reth.git" }
 
 eyre = "0.6.12"
+libloading = "0.8.5"
 
 [[test]]
 name = "minimal"
