@@ -11,8 +11,10 @@ use reth_exex::ExExNotification;
 /// ```rust
 /// use std::{future::Future, pin::Pin};
 ///
+/// use eyre::Result;
+///
 /// use reth_exex::ExExNotification;
-/// use reth_exex_plugin::{ExExPlugin, Result};
+/// use reth_exex_plugin::ExExPlugin;
 ///
 /// #[derive(Debug, Default)]
 /// struct MinimalExEx;
