@@ -5,6 +5,12 @@ edition = "2021"
 license = "MIT OR Apache-2.0"
 rust-version = "1.81"
 
+[dependencies]
+# reth
+reth-exex = { git = "https://github.com/paradigmxyz/reth.git" }
+
+eyre = "0.6.12"
+
 [[test]]
 name = "minimal"
 path = "tests/minimal.rs"
