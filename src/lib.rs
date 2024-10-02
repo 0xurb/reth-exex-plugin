@@ -5,5 +5,8 @@
 #![cfg_attr(not(test), warn(unused_crate_dependencies))]
 #![allow(missing_docs)]
 
+mod manager;
 mod plugin;
+pub use plugin::ExExPlugin;
+
 mod rpc;

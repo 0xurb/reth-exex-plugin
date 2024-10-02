@@ -1,5 +1,5 @@
 mod loaded;
+pub(crate) use loaded::LoadedExExPlugin;
 
 mod r#trait;
-pub use crate::declare_exex_plugin;
 pub use r#trait::ExExPlugin;
