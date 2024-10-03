@@ -19,6 +19,9 @@ libloading = "0.8.5"
 tokio = "1.40.0"
 jsonrpsee = { version = "0.24.5", features = ["server", "macros"] }
 
+[dev-dependencies]
+reth-exex-test-utils = { git = "https://github.com/paradigmxyz/reth.git" }
+
 [[test]]
 name = "minimal"
 path = "tests/minimal.rs"

@@ -9,7 +9,11 @@ mod manager;
 pub use manager::{ExExPluginManager, EXEX_MANAGER_ID};
 
 mod rpc;
-pub use rpc::{ExExPluginRpc, ExExRpcPluginApiServer};
+pub use rpc::{
+    ExExPluginRpc,
+    ExExRpcPluginApiServer,
+    RpcRequest, // TODO - it's only for tests
+};
 
 mod sender;
 
