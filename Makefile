@@ -10,9 +10,20 @@ build:
 	make build-lib && \
 	make build-examples
 
+.PHONY: fix
+fix:
+	make lint && \
+	make fmt
+
 .PHONY: fmt
 fmt:
-	cargo +nightly fmt
+	cargo +nightly fmt --all
+
+.PHONY: lint
+lint:
+	cargo +nightly clippy \
+		--all-features \
+    	-- -D warnings
 
 .PHONY: test
 test: ## tests from whole `reth-exex-plugin` crate (included doc tests also).
@@ -24,7 +35,7 @@ clean: ## cleanup for /target directory on all example plugins and `reth-exex-pl
 	cd $(EXAMPLES_DIR)/minimal && \
 	cargo clean
 
-#@ `reth-exex-plugin` lib 
+#@ `reth-exex-plugin` lib
 
 build-lib: ## Build the `reth-exex-plugin` lib & bin into a `/target` directory.
 	cargo build --profile "$(PROFILE)"
