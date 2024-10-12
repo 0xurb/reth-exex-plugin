@@ -6,15 +6,15 @@
 use std::{future::Future, pin::Pin};
 
 use eyre::Result;
-use serde::Serialize;
 use reth_exex_plugin::{ExExNotification, ExExPlugin};
+use serde::Serialize;
 
-const OUT_PATH: &'static str = "examples/minimal/assets/notifications.json";
+const OUT_PATH: &str = "examples/minimal/assets/notifications.json";
 
 #[derive(Serialize)]
 enum ProcessedExExNotification {
     Commit { from: u64, to: u64 },
-    Revert { from: u64, to: u64 }
+    Revert { from: u64, to: u64 },
 }
 
 #[derive(Debug, Default)]
@@ -48,14 +48,20 @@ impl ExExPlugin for MinimalExEx {
                 ExExNotification::ChainCommitted { new } => {
                     // received commit
                     let range = new.range();
-                    write_notification(ProcessedExExNotification::Commit {from: *range.start(), to: *range.end() })
+                    write_notification(ProcessedExExNotification::Commit {
+                        from: *range.start(),
+                        to: *range.end(),
+                    })
                 }
                 ExExNotification::ChainReverted { old } => {
                     // received revert
                     let range = old.range();
-                    write_notification(ProcessedExExNotification::Revert {from: *range.start(), to: *range.end() })
+                    write_notification(ProcessedExExNotification::Revert {
+                        from: *range.start(),
+                        to: *range.end(),
+                    })
                 }
-                _ => Ok(())
+                _ => Ok(()),
             }
         })
     }
@@ -63,8 +69,7 @@ impl ExExPlugin for MinimalExEx {
 
 /// Writes a given [ProcessedExExNotification] in the [`OUT_PATH`]
 fn write_notification(notification: ProcessedExExNotification) -> Result<()> {
-    std::fs::write(OUT_PATH, serde_json::to_string_pretty(&notification)?)
-        .map_err(Into::into)
+    std::fs::write(OUT_PATH, serde_json::to_string_pretty(&notification)?).map_err(Into::into)
 }
 
 reth_exex_plugin::declare_exex_plugin!(MinimalExEx);
