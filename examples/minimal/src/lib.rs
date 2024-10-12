@@ -1,5 +1,5 @@
 //! ExEx plugin example implementation.
-//! 
+//!
 //! Simply takes a notification's chain kind & range of block numbers
 //!     and store them to `OUT_PATH` json file, if it was either revert or commit.
 
@@ -9,7 +9,7 @@ use eyre::Result;
 use serde::Serialize;
 use reth_exex_plugin::{ExExNotification, ExExPlugin};
 
-const OUT_PATH: &'static str = "../assets/notifications.json";
+const OUT_PATH: &'static str = "examples/minimal/assets/notifications.json";
 
 #[derive(Serialize)]
 enum ProcessedExExNotification {
@@ -36,7 +36,7 @@ impl ExExPlugin for MinimalExEx {
     }
 
     /// Example usage of [notification](`ExExNotification`) handler
-    /// 
+    ///
     /// Simply takes a notification's chain kind & range of block numbers
     ///     and store them to `OUT_PATH` json file, if it was either revert or commit.
     fn handle_notification<'a: 'b, 'b>(
