@@ -48,8 +48,11 @@ impl<Node: FullNodeComponents> ExExPluginManager<Node> {
         loop {
             tokio::select! {
                 // handle `ExExNotification` on list of loaded plugins
-                Some(notification) = self.ctx.notifications.next() => {
-                    self.handle_notification(notification).await?
+                Some(notification_result) = self.ctx.notifications.next() => {
+                    match notification_result {
+                        Ok(notification) => self.handle_notification(notification).await?,
+                        Err(err) => error!(err=%err, "on receive context exex notification"),
+                    }
                 }
                 // handle RPC request to operate with plugins or load them
                 Some(req) = self.rpc_request_recv.recv() => {
